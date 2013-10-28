@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div.body
+    h1= title
+    p Welcome to #{title}
+    div.form
+      form(action='/search',method='get')
+        div.search-input
+          input(id='q',name='q',type='text',value='')
+        div.button-search
+          input(type='submit',value='search',data-transition='fade', data-theme='c')
