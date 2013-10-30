@@ -7,10 +7,16 @@ var express = require('express');
 var routes = require('./routes');
 var search = require('./routes/search');
 
+var QuotationModel = require('./services/dbconfigure').QuotationModel;
+
+var model = new QuotationModel();
+
 var http = require('http');
 var path = require('path');
 
 var app = express();
+
+var quotations;
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -33,6 +39,16 @@ app.get('/', routes.index);
 
 app.get('/search', search.query);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+model.find({},function (error, docs){
+    if(error){
+		console.log(error);
+    }
+	
+    quotations = docs;
+	    exports.quotations = quotations;
+	    console.log('quotations retrieved: ' + quotations.length);
+	    http.createServer(app).listen(app.get('port'), function(){
+	  console.log('Express server listening on port ' + app.get('port'));
+	});
 });
+

@@ -38,35 +38,26 @@ var quotationSchema = new Schema(
    }
 });
 
-var sc = new Schema({});
-
 var Quotation = mongoose.model('Quotation', quotationSchema,'quotation');
 
-QuotationModel.prototype.findOne = function(criteria,callback){
-    
-    try{
-	console.log('Connecting');
-	
-	mongoose.connect(connectionString, function (err, res) {
-	    if (err) { 
-		console.log ('ERROR connecting to: ' + connectionString + '. ' + err);
-	    } else {
-		console.log ('Succeeded connected to: ' + connectionString);
-	    }
-	});
-	
-	Quotation.findOne(criteria, function(err, doc) {
-	    console.log('Diconnectin');
-	    mongoose.disconnect();	
-	    if (err) return err;
-	    callback(err,doc);
-	});
-    } catch(err){
-	throw err;
-    }finally{
-	
-	
-    }
+QuotationModel.prototype.find = function(criteria,callback){
+        
+    console.log('Connecting');
+    	
+    mongoose.connect(connectionString, function (err, res) {
+        if (err) { 
+    	    console.log ('ERROR connecting to: ' + connectionString + '. ' + err);
+        } else {
+    	    console.log ('Succeeded connected to: ' + connectionString);
+        }
+    });
+
+    Quotation.find(criteria, function(err, doc) {
+        console.log('Diconnecting');
+        mongoose.disconnect();	
+        if (err) return err;
+        callback(err,doc);
+    });
 
 }
 
