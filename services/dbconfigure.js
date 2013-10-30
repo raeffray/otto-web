@@ -6,13 +6,7 @@ var Schema = mongoose.Schema;
 
 
 QuotationModel = function (){
-    mongoose.connect(connectionString, function (err, res) {
-	if (err) { 
-	    console.log ('ERROR connecting to: ' + connectionString + '. ' + err);
-	} else {
-	    console.log ('Succeeded connected to: ' + connectionString);
-	}
-    });
+
 }
 
 var quotationSchema = new Schema(
@@ -49,14 +43,30 @@ var sc = new Schema({});
 var Quotation = mongoose.model('Quotation', quotationSchema,'quotation');
 
 QuotationModel.prototype.findOne = function(criteria,callback){
-
-  console.log(criteria);
-
-  Quotation.findOne(criteria, function(err, doc) {
-    if (err) return err;
-    mongoose.disconnect();
-    callback(err,doc);
-  });
+    
+    try{
+	console.log('Connecting');
+	
+	mongoose.connect(connectionString, function (err, res) {
+	    if (err) { 
+		console.log ('ERROR connecting to: ' + connectionString + '. ' + err);
+	    } else {
+		console.log ('Succeeded connected to: ' + connectionString);
+	    }
+	});
+	
+	Quotation.findOne(criteria, function(err, doc) {
+	    console.log('Diconnectin');
+	    mongoose.disconnect();	
+	    if (err) return err;
+	    callback(err,doc);
+	});
+    } catch(err){
+	throw err;
+    }finally{
+	
+	
+    }
 
 }
 

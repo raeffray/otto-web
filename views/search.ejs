@@ -87,6 +87,7 @@
     
   </head>
   <body>
+    <%= docs.city %>
     <div id='form-search'>
       <form action="/search" method="get" accept-charset="utf-8">
 	<div id='q'>
@@ -99,7 +100,8 @@
       </form>
     </div>
     <div id="googleMap" style="width:800px;height:600px;"></div>
-
+    
+    
     
     <p id="demo">Click the button to get your coordinates:</p>
     <button onclick="getLocation()">Try It</button>
