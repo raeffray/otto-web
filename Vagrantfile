@@ -6,8 +6,8 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "ubuntu-server-raring64"
-  config.vm.box_url = "https://dl.dropboxusercontent.com/u/191471/FirstBeatMedia/ubuntu-13.04.box"
+  config.vm.box = "raring64"
+  config.vm.box_url = "http://bit.ly/vagrant-lxc-raring64-2013-10-23"
 
   config.vm.network :forwarded_port, guest: 8080, host: 8080
 
