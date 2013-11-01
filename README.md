@@ -38,6 +38,7 @@ SSH to the VM and start the application.
 ```
 $ vagrant ssh
 vagrant@vagrant:~$ cd /vagrant
+vagrant@vagrant:~$ npm install
 vagrant@vagrant:~$ node app.js
 ```
 
