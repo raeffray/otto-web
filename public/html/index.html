@@ -1,0 +1,123 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+http://www.clker.com/clipart-gas-station-black.html
+http://iconexpo.com/2008/12/free-gmail-icons/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="description" content="Mapa de Preços de Combustíveis"/>
+        <meta name="keywords" content="mapa, preços, combustíveis, gasolina, álcool, diesel, posto, carro"/>
+        <meta name="author" content="mhnagaoka"/>
+        <title>mapaprecos | Mapa de Preços de Combustíveis</title>
+        <link rel="stylesheet" href="stylesheets/stylesheet.css" type="text/css" media="screen" charset="utf-8" />
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;hl=pt-BR&amp;key=ABQIAAAAsFgzjG2ZNCnMDPusDfRkBRTQXT4CSs4tCJGZh2EYT006E-fZ-hSjTL3V7_AttBEOXIKiD1pvRW-41A" type="text/javascript">
+        </script>
+        <script src="http://www.google.com/jsapi">
+        </script>
+        <script type="text/javascript">
+            google.load("jquery", "1.3.2");
+        </script>
+        <script src="/javascripts/labeledmarker.js" type="text/javascript">
+        </script>
+        <script src="/javascripts/map.js" type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            google.setOnLoadCallback(function(){
+                initialize();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <h1>&gt; $</h1>
+                <h2>mapapreços</h2>
+            </div>
+            <div id="disclaimer">
+                <p>
+                    Seja bem vindo.
+                </p>
+                <p>
+                    O mapapreços é um site que tenta mostrar os preços dos combustíveis na sua região de
+                    maneira conveniente em um mapa.
+                </p>
+                <p>
+                    Os preços que você vê no mapa à esquerda foram coletados na pesquisa periódica de 
+                    preços de combustíveis da <a href="http://www.anp.gov.br">ANP</a>. Nós então obtemos as
+                    coordenadas geográficas de acordo com o endereço de cada posto e exibimos seu preço no mapa.
+                </p>
+                <p>
+                    Os preços só são exibidos no mapa a partir de um determinado nível de zoom, portanto,
+                    caso vc não esteja vendo os preços, aumente o nível de zoom.
+                </p>
+                <p>
+                    Inicialmente, apenas algumas cidades estão cobertas, apesar da pesquisa da ANP ser 
+                    relativamente abrangente: São Paulo, Guarulhos, Campinas e São José dos Campos. 
+                </p>
+            </div>
+            <div id="debug">
+                <div id="event_toolbar">
+                    Evento: 
+                    <button onclick="javascript:document.getElementById('last_event').innerHTML=''">
+                        Limpar
+                    </button>
+                </div>
+                <div id="last_event">
+                </div>
+            </div>
+            <div id="map_canvas">
+            </div>
+            <div id="footer">
+                <a href="http://www.twitter.com/mapaprecos"><img src="http://twitter-badges.s3.amazonaws.com/t_small-a.png" alt="Siga-no no Twitter"/></a><a href="mailto:mapaprecos.help@gmail.com"><img src="img/gmail-icon24.png" alt="Mande-nos um e-mail"/></a><img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
+            </div>
+        </div>
+        <div id="price_details" style="display:none">
+            <div class="info_window_html">
+                <div>
+                    <div id="dtl_name">
+                        ----
+                    </div>
+                    <div id="dtl_address">
+                        ----
+                    </div>
+                </div>
+                <table class="price_table" cellpadding="0" cellspacing="0" style="width: 30%">
+                    <tr>
+                        <td>
+                            ALC
+                        </td>
+                        <td id="dtl_alc">
+                            ----
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            GAS
+                        </td>
+                        <td id="dtl_gas">
+                            ----
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DIE
+                        </td>
+                        <td id="dtl_die">
+                            ----
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            GNV
+                        </td>
+                        <td id="dtl_gnv">
+                            ----
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

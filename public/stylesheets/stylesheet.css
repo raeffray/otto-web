@@ -1,0 +1,146 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#container {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Georgia;
+}
+
+#header {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -opera-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 24px;
+    background: url('img/pump.png');
+    background-repeat: no-repeat;
+    background-color: #231f20;
+    color: white;
+    padding-left: 80px;
+    line-height: 100px;
+    height: 100px;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#header h1 {
+    font-size: 4.5em;
+    letter-spacing: -12px;
+    font-family: Georgia;
+}
+
+#header h2 {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 76px;
+    font-family: Arial, sans-serif;
+    padding-top: 24px;
+    padding-right: 18px;
+    text-shadow: 0px 0px 10px #aaaaaa;
+}
+
+#map_canvas {
+    width: 752px;
+    height: 520px;
+}
+
+#disclaimer {
+    float: right;
+    width: 200px;
+    height: 520px;
+    overflow: auto;
+    color: #444444;
+    text-align: justify;
+    line-height: 1.1;
+    font-size: 15px;
+}
+
+#disclaimer p {
+    margin-bottom: 5px;
+}
+
+#debug {
+    display: none;
+    font-size: 10px;
+    float: right;
+    width: 200px;
+    height: 520px;
+    color: #444444;
+    overflow: auto;
+}
+
+#footer {
+    font-size: 10px;
+    margin-top: 5px;
+    clear: both;
+}
+
+#footer a {
+    float: right;
+}
+
+#footer img {
+    border: none;
+    margin-right: 8px;
+}
+
+#price_details {
+    width: 300px;
+}
+
+div.LabeledMarker_markerLabel {
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-size: 11px;
+    height: 14px;
+    width: 36px;
+    text-align: center;
+    border-bottom: thin solid #000000;
+    border-left: thin solid #000000;
+    padding-top: 3px;
+    background-color: rgb(93, 122, 177);
+    color: white;
+}
+
+div.LabeledMarker_markerLabel:hover {
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-weight: bold;
+    font-size: 11px;
+    height: 14px;
+    width: 36px;
+    text-align: center;
+    border-bottom: 2px inset;
+    border-left: 2px inset;
+    padding-top: 3px;
+    background-color: rgb(152, 26, 33);
+    color: white;
+}
+
+div.info_window_html {
+	width: 300px;
+    font-family: Arial, Helvetica, Sans-Serif;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+div.info_window_html div {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -opera-border-radius: 4px;
+    -khtml-border-radius: 4px;
+	background-color: #444444;
+	color: white;
+	margin-right: 10px;
+	padding: 4px;
+}
+
+table.price_table {
+	margin-top: 8px;
+	padding-left: 8px;
+}

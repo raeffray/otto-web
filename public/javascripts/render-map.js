@@ -1,32 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>OTTO service</title>
-    <style>
-      html, body, #map-canvas {
-        height: 90%;
-        margin: 0px;
-        padding: 0px
-      }
-      #panel {
-        position: absolute;
-        top: 5px;
-        left: 50%;
-        margin-left: -180px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&?key=AIzaSyAkklQyRjr1Jnm7UzTXgF_St_GrmEKI_Vs"></script>
-    <script>
         var geocoder;
         var map;
         var centre;
         var marker;
+
+        alert(quotations.length);
 
         function getLocation() {
           if (navigator.geolocation) {
@@ -60,7 +37,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
           }
 
-        var quotations = <%- JSON.stringify(data) %>;
+        
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -126,15 +103,3 @@
 
 
         google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-
-    <div id="panel">
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input type="button" value="Geocode" onclick="codeAddress()">
-    </div>
-    <div id="map-canvas"></div>
-  </body>
-</html>
