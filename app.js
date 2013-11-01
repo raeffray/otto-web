@@ -4,18 +4,9 @@
  */
 
 var express = require('express');
-<<<<<<< HEAD
-var routes = require('./routes/index');
-var data = require('./routes/data');
-=======
 var consolidate = require('consolidate');
+
 var routes = require('./routes');
-var search = require('./routes/search');
-
-var QuotationModel = require('./services/dbconfigure').QuotationModel;
-
-var model = new QuotationModel();
->>>>>>> d06e98bd362175accff1e93f9c6277418f15dcd3
 
 var http = require('http');
 var path = require('path');
@@ -25,7 +16,6 @@ var Quotation = require("./model/schemas").Quotation;
 
 
 var app = express();
-
 
 // all environments
 app.set('port', process.env.PORT || 3000);
