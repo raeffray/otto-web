@@ -19,11 +19,11 @@ Vagrant 1.3.5
 Clone this project.
 
 ```
-$ git clone https://github.com/raeffray/otto-web.git
+$ git clone --recursive https://github.com/raeffray/otto-web.git
 ```
 or
 ```
-$ git clone git@github.com:raeffray/otto-web.git
+$ git clone --recursive git@github.com:raeffray/otto-web.git
 ```
 
 Let Vagrant and Chef do their magic.
