@@ -4,8 +4,6 @@ var url = "http://maps.google.com/maps/api/geocode/json"
 
 var client = new Client();
 
-
-
 SearchAddress = function(){
     // registering remote methods
     client.registerMethod("jsonMethod", url, "GET");
@@ -17,16 +15,21 @@ SearchAddress.prototype.search = function(address,callback){
     var args ={
 	   parameters:{address: address ,sensor:'false'}
     };
+
+    console.log('searching: ' + address);	
     
     client.methods.jsonMethod(args, function(data,response){
 
         var obj = JSON.parse(data);
+
+        console.log(address + ': ' + obj.status);
 
         callback(obj);
 
     });
 
 }
+
 
 exports.SearchAddress = SearchAddress;
 

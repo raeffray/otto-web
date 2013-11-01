@@ -20,9 +20,7 @@ var anpCrawledSchema = new mongoose.Schema({
             }
          },
          street: String,
-         neighborhood: String,
-         lat: Number,
-         lng: Number
+         neighborhood: String
       },
       name: String,
       normalizedAddress: String,
