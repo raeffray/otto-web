@@ -10,6 +10,8 @@
     "ejs": "*",
     "stylus": "*",
     "mongoose": "latest",
-    "node-rest-client": "latest"
+    "node-rest-client": "latest",
+    "consolidate": "~0.9.1",
+    "jade": "~0.35.0"
   }
 }
