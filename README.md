@@ -21,6 +21,10 @@ Clone this project.
 ```
 $ git clone https://github.com/raeffray/otto-web.git
 ```
+or
+```
+$ git clone git@github.com:raeffray/otto-web.git
+```
 
 Let Vagrant and Chef do their magic.
 
