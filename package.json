@@ -12,6 +12,6 @@
     "mongoose": "latest",
     "node-rest-client": "latest",
     "consolidate": "~0.9.1",
-    "jade": "~0.35.0"
+    "jade": "latest"
   }
 }
