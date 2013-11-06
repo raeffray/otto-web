@@ -44,5 +44,7 @@ vagrant@vagrant:~$ node app.js
 
 Open the application URL (http://192.168.222.222:3000/).
 
+![CodeShipStatus] (https://www.codeship.io/projects/2d36f190-2942-0131-ec5e-1e0602f52547/status)
+
 
 > Written with [StackEdit](https://stackedit.io/).
