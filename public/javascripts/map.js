@@ -3,7 +3,7 @@ var prices = new Object();
 
 function createMarker(mappedPrice, icon){
 
-    var point = new GLatLng(mappedPrice.lat, mappedPrice.lng);
+    var point = new GLatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
 
 
     markerOpts = {
@@ -101,6 +101,7 @@ function fetchPriceMap(map, icon){
     $.getJSON(url, function(result){
 
         var markers = createMarkersFromPriceMap(result, icon);
+        
         for (var i = 0, marker; marker = markers[i]; i++) {
             map.addOverlay(marker);
         }

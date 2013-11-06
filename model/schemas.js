@@ -20,7 +20,9 @@ var anpCrawledSchema = new mongoose.Schema({
             }
          },
          street: String,
-         neighborhood: String
+         neighborhood: String,
+	 lat: Number,
+	 lng: Number
       },
       name: String,
       normalizedAddress: String,
@@ -59,8 +61,7 @@ var quotationSchema = new mongoose.Schema({
     week: String,
     city: String,
     state: String,
-    lat: Number,
-    lng: Number,
+    localization : [Number],
     station: {
       name: String,
       normalizedAddress: String,

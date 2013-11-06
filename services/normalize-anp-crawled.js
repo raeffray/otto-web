@@ -6,8 +6,6 @@ var AnpCrawled = require("../model/schemas").AnpCrawled;
 var Quotation = require("../model/schemas").Quotation;
 var SearchAddress =  require('../services/google-get-coordinates').SearchAddress;
 
-var searchAddress = new SearchAddress();
-
 retrieve({},normalize);
 
 /**
@@ -55,14 +53,17 @@ function fetchEachStation(docs){
 	week: docs[0].week,
 	city: docs[0].city,
 	state: docs[0].station.address.city.state.name,
-	lat: docs[0].station.address.lat,
-	lng: docs[0].station.address.lng,
+	localization: [],
 	station: {
 	    name: docs[0].station.name,
 	    normalizedAddress: docs[0].station.normalizedAddress,
 	},
 	fuel: []
     }
+
+    quotation.localization.push(docs[0].station.address.lat);
+    quotation.localization.push(docs[0].station.address.lng);
+    
     
     for (var i = 0; i < docs.length; i++) {
 	var doc = docs[i];
@@ -80,38 +81,17 @@ function fetchEachStation(docs){
 	quotation.fuel.push(fuel);
     }
     
-    searchAddress.search(docs[0].station.normalizedAddress,function(data){
-
-	sleep(2000);
-	
-	if(typeof data.results[0] == 'undefined'){
-		console.log('Address not found: ' + docs[0].station.normalizedAddress);
-		return;
+        
+    console.log(quotation);
+    
+    Quotation.create(quotation, function(err, doc) {
+    	var strOutput;
+	if (err) {
+	    console.log(err);
+	    strOutput = 'Error creating quotation';
+	} else {
+	    console.log('Quotation created: ' + doc.station.name);
 	}
-	
-	quotation.lat = data.results[0].geometry.location.lat;
-	quotation.lng = data.results[0].geometry.location.lng;
-
-	console.log(quotation);
-	
-	Quotation.create(quotation, function(err, doc) {
-    	    var strOutput;
-	    if (err) {
-		console.log(err);
-		strOutput = 'Error creating quotation';
-	    } else {
-		console.log('Quotation created: ' + doc.station.name);
-	    }
-	});
-	
     });
 }
 
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 2e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
-            break;
-        }
-    }
-} 

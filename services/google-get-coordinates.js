@@ -17,6 +17,8 @@ SearchAddress.prototype.search = function(address,callback){
     };
 
     console.log('searching: ' + address);	
+
+    sleep(2000);
     
     client.methods.jsonMethod(args, function(data,response){
 
@@ -30,6 +32,14 @@ SearchAddress.prototype.search = function(address,callback){
 
 }
 
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 2e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
 
 exports.SearchAddress = SearchAddress;
 
