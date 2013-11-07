@@ -122,7 +122,7 @@ function initialize(){
     var clientLocation = google.loader.ClientLocation;
     
     if (GBrowserIsCompatible()) {
-        var map = new GMap2(document.getElementById("map_canvas"));
+        var map = new google.maps.Map(document.getElementById("map_canvas"));
         map.setUIToDefault();
         if (clientLocation) {
             map.setCenter(new GLatLng(clientLocation.latitude, clientLocation.longitude), 15);
