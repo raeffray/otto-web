@@ -3,7 +3,7 @@ var prices = new Object();
 
 function createMarker(mappedPrice, icon){
 
-    var point = new GLatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
+    var point = new google.maps.LatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
 
 
     markerOpts = {
@@ -121,15 +121,14 @@ function initialize(){
     
     var clientLocation = google.loader.ClientLocation;
     
-    if (GBrowserIsCompatible()) {
         var map = new google.maps.Map(document.getElementById("map_canvas"));
         map.setUIToDefault();
         if (clientLocation) {
-            map.setCenter(new GLatLng(clientLocation.latitude, clientLocation.longitude), 15);
+            map.setCenter(new google.maps.LatLng(clientLocation.latitude, clientLocation.longitude), 15);
         }
         else {
-            map.setCenter(new GLatLng(-23.5643768, -46.671688), 15);
-            //map.setCenter(new GLatLng(-23.54730726103009, -46.64451599121094), 13);
+            map.setCenter(new google.maps.LatLng(-23.5643768, -46.671688), 15);
+            //map.setCenter(new google.maps.LatLng(-23.54730726103009, -46.64451599121094), 13);
         }
         
         var icon = new GIcon();
@@ -173,5 +172,5 @@ function initialize(){
             map.getZoom();
             logEvent(myHtml);
         });
-    }
+    
 }
