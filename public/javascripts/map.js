@@ -122,7 +122,7 @@ function initialize(){
     var clientLocation = google.loader.ClientLocation;
     
         var map = new google.maps.Map(document.getElementById("map_canvas"));
-        map.setUIToDefault();
+
         if (clientLocation) {
             map.setCenter(new google.maps.LatLng(clientLocation.latitude, clientLocation.longitude), 15);
         }
