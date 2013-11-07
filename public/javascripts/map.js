@@ -5,11 +5,14 @@ function createMarker(mappedPrice, map, infoWindow){
 
     var point = new google.maps.LatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
 
+    var labelFuel = mappedPrice.fuel[0].fuel.substring(4,5) + ' ' + mappedPrice.fuel[0].sellingPrice;
+
     var marker = new MarkerWithLabel({
        position: point,
        map: map,
        draggable: false,
-       labelContent: mappedPrice.fuel[0].sellingPrice,
+       icon: '/images/pump-marker.png',
+       labelContent: labelFuel,
        labelAnchor: new google.maps.Point(3, 30),
        labelClass: "labels", // the CSS class for the label
        labelInBackground: false
