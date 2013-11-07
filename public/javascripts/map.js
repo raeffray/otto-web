@@ -49,7 +49,7 @@ function displayGasStationDetails(marker, mappedPrice, map, infoWindow){
         }
 
         var windowOpts = {
-            "pixelOffset": new google.maps.Size(-38, -17),
+            "pixelOffset": new google.maps.Size(-2, -2),
             content: $("#price_details").clone().html()
         };
 
