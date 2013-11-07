@@ -1,48 +1,32 @@
 // Goddamn global variable
 var prices = new Object();
 
-function createMarker(mappedPrice, icon){
+function createMarker(mappedPrice, map, infoWindow){
 
     var point = new google.maps.LatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
 
+    var marker = new MarkerWithLabel({
+       position: point,
+       map: map,
+       draggable: false,
+       labelContent: mappedPrice.fuel[0].sellingPrice,
+       labelAnchor: new google.maps.Point(3, 30),
+       labelClass: "labels", // the CSS class for the label
+       labelInBackground: false
+     });
 
-    markerOpts = {
-        "title": mappedPrice.station.name,
-        "icon": icon,
-        "clickable": true,
-        "labelText": mappedPrice.fuel[0].sellingPrice,
-        "labelOffset": new GSize(-0, -18)
-    };
-    var marker = new LabeledMarker(point, markerOpts);
-    
-    GEvent.addListener(marker, "click", function(){
-        var id = mappedPrice.id;
-        logEvent("click: id=" + id);
-        
-    });
-    
-    GEvent.addListener(marker, "click", displayGasStationDetails(marker, mappedPrice));
-    
-    var oldZIndex = 0;
-    
-    GEvent.addListener(marker, "mouseover", function(){
-        oldZIndex = this.div_.style.zIndex;
-        // Traz o preço p/ frente
-        this.div_.style.zIndex = 99999999;
-    });
-    
-    GEvent.addListener(marker, "mouseout", function(){
-        this.div_.style.zIndex = oldZIndex;
-    });
+    google.maps.event.addListener(marker, "click", displayGasStationDetails(marker, mappedPrice, map, infoWindow));
     
     return marker;
 }
 
-function displayGasStationDetails(marker, mappedPrice){
-    return function(){
+function displayGasStationDetails(marker, mappedPrice, map, infoWindow){
+     return function(){
+
+        infoWindow.close();
+
         $("#dtl_name").text(mappedPrice.station.name);
         $("#dtl_address").text(mappedPrice.station.normalizedAddress);
-
 
         for(var i=0;i<mappedPrice.fuel.length;i++){
             var fuel = mappedPrice.fuel[i];
@@ -61,13 +45,17 @@ function displayGasStationDetails(marker, mappedPrice){
             };
         }
 
-
         var windowOpts = {
-            "noCloseOnClick": false,
-            "pixelOffset": new GSize(-38, -17),
+            "pixelOffset": new google.maps.Size(-38, -17),
+            content: $("#price_details").clone().html()
         };
-        marker.openInfoWindowHtml($("#price_details").clone().html(), windowOpts);
-    }
+
+        infoWindow.setOptions(windowOpts);
+
+        infoWindow.open(map, marker); 
+
+        //marker.openInfoWindowHtml($("#price_details").clone().html(), windowOpts);
+    } 
 }
 
 function logEvent(message){
@@ -76,39 +64,43 @@ function logEvent(message){
     $("#last_event").append("<br/>" + message);
 }
 
-function createMarkersFromPriceMap(priceMap, icon){
+function createMarkersFromPriceMap(priceMap,map,infoWindow){
+
     var markers = new Array();
     for (var i = 0, item; item = priceMap[i]; i++) {
         //if (!prices["" + item.id]) {
-            markers.push(createMarker(item, icon));
+            markers.push(createMarker(item,map,infoWindow));
             prices["" + item.id] = item;
         //}
     }
     return markers;
 }
 
-function fetchPriceMap(map, icon){
-    var bounds = map.getBounds();
-    var params = {
-        swLat: bounds.getSouthWest().lat(),
-        swLng: bounds.getSouthWest().lng(),
-        neLat: bounds.getNorthEast().lat(),
-        neLng: bounds.getNorthEast().lng(),
-    };
-    var url = "/data?" + jQuery.param(params);
+function fetchPriceMap(map, infoWindow){
+    if (map.getZoom() >= 15) {
+        var bounds = map.getBounds();
+        var params = {
+            swLat: bounds.getSouthWest().lat(),
+            swLng: bounds.getSouthWest().lng(),
+            neLat: bounds.getNorthEast().lat(),
+            neLng: bounds.getNorthEast().lng(),
+        };
+        var url = "/data?" + jQuery.param(params);
 
-    logEvent("Fetching: " + url);
-    $.getJSON(url, function(result){
+        $.getJSON(url, function(result){
 
-        var markers = createMarkersFromPriceMap(result, icon);
-        
-        for (var i = 0, marker; marker = markers[i]; i++) {
-            map.addOverlay(marker);
-        }
-    });
+            var markers = createMarkersFromPriceMap(result,map, infoWindow);
+            
+            for (var i = 0, marker; marker = markers[i]; i++) {
+                marker.setMap(map);
+            }
+        });
+    }
 }
 
 function initialize(){
+
+    var infoWindow = new google.maps.InfoWindow();
 
     if (window.location.hash == "#debug") {
         $("#debug").show();
@@ -121,38 +113,30 @@ function initialize(){
     
     var clientLocation = google.loader.ClientLocation;
     
-        var map = new google.maps.Map(document.getElementById("map_canvas"));
+        var mapCenter; 
 
         if (clientLocation) {
-            map.setCenter(new google.maps.LatLng(clientLocation.latitude, clientLocation.longitude), 15);
+            mapCenter = new google.maps.LatLng(clientLocation.latitude, clientLocation.longitude);
         }
         else {
-            map.setCenter(new google.maps.LatLng(-23.5643768, -46.671688), 15);
-            //map.setCenter(new google.maps.LatLng(-23.54730726103009, -46.64451599121094), 13);
+            mapCenter = new google.maps.LatLng(-23.5643768, -46.671688);
         }
-        
-        var icon = new GIcon();
-        icon.image = "classic.png";
-        //icon.image = "transparent.png";
-        icon.iconSize = new GSize(36, 14);
-        icon.iconAnchor = new GPoint(0, 19);
-        icon.infoWindowAnchor = new GPoint(34, 5);
-        
-        fetchPriceMap(map, icon);
-        
-        GEvent.addListener(map, "moveend", function(){
-            var message = "moveend:";
-            message += "<br/>The new map center is: " + map.getCenter();
-            message += "<br/>New bounds are: " + map.getBounds();
-            message += "<br/>Zoom level: " + map.getZoom();
-            logEvent(message);
-            
-            if (map.getZoom() >= 13) {
-                fetchPriceMap(map, icon);
-            }
+
+        var mapOptions = {
+            zoom: 15,
+            center: mapCenter,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions,function(){
+            fetchPriceMap(map,infoWindow);
         });
         
-        GEvent.addListener(map, "click", function(overlay, latlng){
+        google.maps.event.addListener(map, 'idle', function() {
+            fetchPriceMap(map,infoWindow);
+        });
+        
+        google.maps.event.addListener(map, "click", function(overlay, latlng){
             if (overlay) {
                 // ignore if we click on the info window
                 return;

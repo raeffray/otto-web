@@ -18,7 +18,7 @@ exports.map = function(req, res){
 	var sw = [];
 	var ne = [];
 
-	var box = []
+	var box = [];
 
 	sw.push(swLat);
 	sw.push(swLng);
