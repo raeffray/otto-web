@@ -105,20 +105,49 @@ function fetchPriceMap(map, infoWindow){
     }
 }
 
-function initialize() {
+function getLocation() {
     var position;
 
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(renderMap);
-    } else{
-        //x.innerHTML="Geolocation is not supported by this browser.";
-        renderMap(position);
+        navigator.geolocation.getCurrentPosition(setMapCenter, showError);
+    }
+}
+
+function setMapCenter(position) {
+    
+    var mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);    
+
+    map.setCenter(mapCenter);
+}
+
+function showError(error) {
+  
+    var errorMsg;
+	
+    switch(error.code) {
+    case error.PERMISSION_DENIED:
+	errorMsg = 'Permissao de Geolocalização Negada.'
+        break;
+    case error.POSITION_UNAVAILABLE:
+        errorMsg = 'Não foi possível determinar o local atual.'
+        break;
+    case error.TIMEOUT:
+        errorMsg = 'Tempo esgotado na tentiva de recuperar o local atual.'
+        break;
+    case error.UNKNOWN_ERROR:
+        errorMsg = 'Erro desconhecido.'
+        break;
     }
 
+    alert(errorMsg);	
 }
-function renderMap(position) {
+
+
+function initialize(position) {
 
     var infoWindow = new google.maps.InfoWindow();
+
+    var mapCenter;	
 
     geocoder = new google.maps.Geocoder();
 
@@ -131,14 +160,7 @@ function renderMap(position) {
         $("#disclaimer").show();
     }
     
-    var mapCenter; 
-
-    if (position) {
-        mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    }
-    else {
-        mapCenter = new google.maps.LatLng(-23.5643768, -46.671688);
-    }
+    mapCenter = new google.maps.LatLng(-23.54977, -46.63411);
     
     var mapOptions = {
         zoom: 15,
@@ -174,6 +196,8 @@ function renderMap(position) {
         map.getZoom();
         logEvent(myHtml);
     });
+
+    getLocation();
 }
 
 function codeAddress() {
