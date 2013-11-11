@@ -96,6 +96,16 @@
     width: 300px;
 }
 
+#panel {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    margin-left: -180px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+ }
 div.LabeledMarker_markerLabel {
     font-family: Arial, Helvetica, Sans-Serif;
     font-size: 11px;

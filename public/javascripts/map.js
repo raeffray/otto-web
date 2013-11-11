@@ -1,6 +1,10 @@
 // Goddamn global variable
 var prices = new Object();
 
+var geocoder;
+
+var map;
+
 function createMarker(mappedPrice, map, infoWindow){
 
     var point = new google.maps.LatLng(mappedPrice.localization[0], mappedPrice.localization[1]);
@@ -101,9 +105,22 @@ function fetchPriceMap(map, infoWindow){
     }
 }
 
-function initialize(){
+function initialize() {
+    var position;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(renderMap);
+    } else{
+        //x.innerHTML="Geolocation is not supported by this browser.";
+        renderMap(position);
+    }
+
+}
+function renderMap(position) {
 
     var infoWindow = new google.maps.InfoWindow();
+
+    geocoder = new google.maps.Geocoder();
 
     if (window.location.hash == "#debug") {
         $("#debug").show();
@@ -114,50 +131,62 @@ function initialize(){
         $("#disclaimer").show();
     }
     
-    var clientLocation = google.loader.ClientLocation;
+    var mapCenter; 
+
+    if (position) {
+        mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    }
+    else {
+        mapCenter = new google.maps.LatLng(-23.5643768, -46.671688);
+    }
     
-        var mapCenter; 
+    var mapOptions = {
+        zoom: 15,
+        center: mapCenter,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
-        if (clientLocation) {
-            mapCenter = new google.maps.LatLng(clientLocation.latitude, clientLocation.longitude);
-        }
-        else {
-            mapCenter = new google.maps.LatLng(-23.5643768, -46.671688);
-        }
-
-        var mapOptions = {
-            zoom: 15,
-            center: mapCenter,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions,function(){
-            fetchPriceMap(map,infoWindow);
-        });
+    map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions,function(){
+        fetchPriceMap(map,infoWindow);
+    });
         
-        google.maps.event.addListener(map, 'idle', function() {
-            fetchPriceMap(map,infoWindow);
-        });
+    google.maps.event.addListener(map, 'idle', function() {
+        fetchPriceMap(map,infoWindow);
+    });
         
-        google.maps.event.addListener(map, "click", function(overlay, latlng){
-            if (overlay) {
+    google.maps.event.addListener(map, "click", function(overlay, latlng){
+        if (overlay) {
                 // ignore if we click on the info window
                 return;
-            }
-            var tileCoordinate = new GPoint();
-            var tilePoint = new GPoint();
-            var currentProjection = G_NORMAL_MAP.getProjection();
-            tilePoint = currentProjection.fromLatLngToPixel(latlng, map.getZoom());
-            tileCoordinate.x = Math.floor(tilePoint.x / 256);
-            tileCoordinate.y = Math.floor(tilePoint.y / 256);
-            var myHtml = "Latitude: " + latlng.lat() + "<br/>Longitude: " + latlng.lng() +
-            "<br/>The Tile Coordinate is:<br/> x: " +
-            tileCoordinate.x +
-            "<br/> y: " +
-            tileCoordinate.y +
-            "<br/> at zoom level " +
-            map.getZoom();
-            logEvent(myHtml);
-        });
-    
+        }
+        var tileCoordinate = new GPoint();
+        var tilePoint = new GPoint();
+        var currentProjection = G_NORMAL_MAP.getProjection();
+        tilePoint = currentProjection.fromLatLngToPixel(latlng, map.getZoom());
+        tileCoordinate.x = Math.floor(tilePoint.x / 256);
+        tileCoordinate.y = Math.floor(tilePoint.y / 256);
+        var myHtml = "Latitude: " + latlng.lat() + "<br/>Longitude: " + latlng.lng() +
+        "<br/>The Tile Coordinate is:<br/> x: " +       
+        tileCoordinate.x +
+        "<br/> y: " +
+        tileCoordinate.y +
+        "<br/> at zoom level " +
+        map.getZoom();
+        logEvent(myHtml);
+    });
+}
+
+function codeAddress() {
+    var address = document.getElementById('address').value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+      });
+    } else {
+      alert('Este endereço não foi locaizado');
+    }
+  });
 }
