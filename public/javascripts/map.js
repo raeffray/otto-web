@@ -84,7 +84,7 @@ function createMarkersFromPriceMap(priceMap,map,infoWindow){
 }
 
 function fetchPriceMap(map, infoWindow){
-    if (map.getZoom() >= 15) {
+    if (map.getZoom() >= 13) {
         var bounds = map.getBounds();
         var params = {
             swLat: bounds.getSouthWest().lat(),
